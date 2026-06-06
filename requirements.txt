@@ -1,0 +1,49 @@
+# ClauseOps - Dependencies
+# Install: pip install -r requirements.txt
+
+# =============================================================================
+# CORE: Document Understanding (Docling - IBM ML-based)
+# =============================================================================
+# Docling provides ML-powered PDF layout analysis trained on DocLayNet (80K pages).
+# It replaces our hand-crafted rule-based extractor+classifier with models that
+# generalize across diverse contract formats automatically.
+docling>=2.0.0
+
+# =============================================================================
+# CORE: PDF Processing (fallback + supplementary)
+# =============================================================================
+# PyMuPDF is still used by the rule-based fallback pipeline and for
+# supplementary PDF operations.
+PyMuPDF>=1.24.0
+
+# =============================================================================
+# NLP: Sentence Boundary Detection
+# =============================================================================
+# spaCy is used for sentence-level splitting of oversized clauses (>480 tokens)
+# to create overlapping sub-chunks that fit within transformer input limits.
+spacy>=3.7.0
+
+# spaCy transformers backend (required for en_core_web_trf)
+spacy-transformers>=1.3.5
+# Model download: python -m spacy download en_core_web_trf
+
+# =============================================================================
+# WEB: API & UI
+# =============================================================================
+# FastAPI powers the visual segmentation viewer web UI.
+fastapi>=0.110.0
+uvicorn>=0.28.0
+python-multipart>=0.0.7
+
+# =============================================================================
+# DEVELOPMENT: Testing
+# =============================================================================
+pytest>=8.0.0
+click>=8.1.0
+
+# =============================================================================
+# FUTURE: ML Pipeline (uncomment when ready)
+# =============================================================================
+# transformers>=4.40.0        # For real tokenizer (token counting)
+# torch>=2.0.0                # Required by transformers (installed by docling)
+# datasets>=2.19.0            # For loading CUAD/LEDGAR/ContractNLI

@@ -1,0 +1,14 @@
+venv/
+__pycache__/
+*.pyc
+.env
+*.pdf
+.DS_Store
+models/
+test_pdfs/
+TEST_PDFS/
+TEST_PDFS_MIXED/
+TEST_PDFS_NEW/
+segmentation_old_pipeline/
+to_be_deleted/
+scratch/
