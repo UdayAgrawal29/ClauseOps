@@ -1,0 +1,796 @@
+{
+  "License Agreement": {
+    "filename": "ArtaraTherapeuticsInc_20200110_8-K_EX-10.5_11943350_EX-10.5_License Agreement.pdf",
+    "time_seconds": 123.3,
+    "total_chunks": 19,
+    "clause_count": 18,
+    "table_count": 0,
+    "def_count": 1,
+    "avg_tokens": 371,
+    "max_tokens": 1452,
+    "min_tokens": 2,
+    "headings": [
+      {
+        "index": 1,
+        "type": "CLAUSE",
+        "heading": "CERTAIN CONFIDENTIAL INFORMATION CONTAINED IN THIS DOCUMENT, MARKED BY […***…], HAS BEEN OMITTED BECAUSE ARTARA THERAPEUTICS, INC. HAS DETERMINED THE INFORMATION (I) IS NOT MATERIAL AND (II) WOULD LIKELY CAUSE COMPETITIVE HARM TO ARTARA THERAPEUTICS, INC. IF PUBLICLY DISCLOSED.",
+        "body_preview": "",
+        "token_count": 50,
+        "start_page": 0,
+        "end_page": 0
+      },
+      {
+        "index": 2,
+        "type": "CLAUSE",
+        "heading": "SPONSORED RESEARCH AND LICENSE AGREEMENT",
+        "body_preview": "This Sponsored Research and License Agreement (this 'Agreement') is entered into on November 28, 201",
+        "token_count": 102,
+        "start_page": 0,
+        "end_page": 0
+      },
+      {
+        "index": 3,
+        "type": "CLAUSE",
+        "heading": "WI T N E S S E T H:",
+        "body_preview": "WHEREAS , ArTara is engaged in the development of pharmaceutical products for the treatment of serio",
+        "token_count": 344,
+        "start_page": 0,
+        "end_page": 0
+      },
+      {
+        "index": 4,
+        "type": "DEFINITION_GROUP",
+        "heading": "ARTICLE ONE DEFINITIONS",
+        "body_preview": "1.1 ' Affiliates ' of a person or entity means any other entity which (directly or indirectly) is co",
+        "token_count": 1013,
+        "start_page": 0,
+        "end_page": 3
+      },
+      {
+        "index": 5,
+        "type": "CLAUSE",
+        "heading": "ARTICLE TWO PROJECT",
+        "body_preview": "2.1 Performance of Project. The University and/or Principal Investigator together with ArTara and th",
+        "token_count": 1030,
+        "start_page": 3,
+        "end_page": 4
+      },
+      {
+        "index": 6,
+        "type": "CLAUSE",
+        "heading": "ARTICLE THREE FUNDING AND PAYMENT",
+        "body_preview": "3.1 Funding. During the term of the Project in accordance with the Project Plan, ArTara will provide",
+        "token_count": 326,
+        "start_page": 4,
+        "end_page": 5
+      },
+      {
+        "index": 7,
+        "type": "CLAUSE",
+        "heading": "3.6 Payments.",
+        "body_preview": "All payments under Articles 3.2, 3.3 and 3.5 shall be sent to the following address: Checks will be ",
+        "token_count": 161,
+        "start_page": 5,
+        "end_page": 6
+      },
+      {
+        "index": 8,
+        "type": "CLAUSE",
+        "heading": "ARTICLE FOUR DATA AND INTELLECTUAL PROPERTY",
+        "body_preview": "",
+        "token_count": 7,
+        "start_page": 6,
+        "end_page": 6
+      },
+      {
+        "index": 9,
+        "type": "CLAUSE",
+        "heading": "4.1 Program Data and Project Documentation.",
+        "body_preview": "(a) Program Data. Access to all original Program Data shall be provided to ArTara and the CRO at Uni",
+        "token_count": 478,
+        "start_page": 6,
+        "end_page": 6
+      },
+      {
+        "index": 10,
+        "type": "CLAUSE",
+        "heading": "ARTICLE FIVE",
+        "body_preview": "",
+        "token_count": 2,
+        "start_page": 7,
+        "end_page": 7
+      },
+      {
+        "index": 11,
+        "type": "CLAUSE",
+        "heading": "CONFIDENTIAL INFORMATION; PUBLICATION",
+        "body_preview": "5.1 Confidentiality. During the term of this Agreement and for a period of seven (7) years after its",
+        "token_count": 1452,
+        "start_page": 7,
+        "end_page": 8
+      },
+      {
+        "index": 12,
+        "type": "CLAUSE",
+        "heading": "ARTICLE SIX REPRESENTATIONS; INDEMNIFICATION",
+        "body_preview": "(j) University represents, to the best of its knowledge and belief, that neither it nor any of its o",
+        "token_count": 616,
+        "start_page": 8,
+        "end_page": 10
+      },
+      {
+        "index": 13,
+        "type": "CLAUSE",
+        "heading": "ARTICLE SEVEN",
+        "body_preview": "",
+        "token_count": 2,
+        "start_page": 10,
+        "end_page": 10
+      },
+      {
+        "index": 14,
+        "type": "CLAUSE",
+        "heading": "INSURANCE",
+        "body_preview": "7.1  ArTara, Affiliates, and sublicensees will obtain and maintain commercial general liability insu",
+        "token_count": 416,
+        "start_page": 10,
+        "end_page": 10
+      },
+      {
+        "index": 15,
+        "type": "CLAUSE",
+        "heading": "ARTICLE EIGHT",
+        "body_preview": "",
+        "token_count": 2,
+        "start_page": 11,
+        "end_page": 11
+      },
+      {
+        "index": 16,
+        "type": "CLAUSE",
+        "heading": "TERM AND TERMINATION",
+        "body_preview": "8.1 Term. This Agreement may be terminated by ArTara upon thirty (30) days prior written notice to U",
+        "token_count": 263,
+        "start_page": 11,
+        "end_page": 11
+      },
+      {
+        "index": 17,
+        "type": "CLAUSE",
+        "heading": "ARTICLE NINE MISCELLANEOUS",
+        "body_preview": "9.1 Force Majeure. University will not be liable for any failure to perform as required by this Agre",
+        "token_count": 799,
+        "start_page": 11,
+        "end_page": 14
+      },
+      {
+        "index": 18,
+        "type": "CLAUSE",
+        "heading": "EXHIBIT A",
+        "body_preview": "",
+        "token_count": 2,
+        "start_page": 14,
+        "end_page": 14
+      },
+      {
+        "index": 19,
+        "type": "CLAUSE",
+        "heading": "PROGRAM DATA",
+        "body_preview": "",
+        "token_count": 2,
+        "start_page": 14,
+        "end_page": 14
+      }
+    ]
+  },
+  "Service Agreement": {
+    "filename": "GpaqAcquisitionHoldingsInc_20200123_S-4A_EX-10.8_11951679_EX-10.8_Service Agreement.pdf",
+    "time_seconds": 23.3,
+    "total_chunks": 28,
+    "clause_count": 28,
+    "table_count": 0,
+    "def_count": 0,
+    "avg_tokens": 386,
+    "max_tokens": 1994,
+    "min_tokens": 2,
+    "headings": [
+      {
+        "index": 1,
+        "type": "CLAUSE",
+        "heading": "CERTAIN INFORMATION HAS BEEN EXCLUDED FROM THIS EXHIBIT BECAUSE IT IS NOT MATERIAL AND WOULD LIKELY CAUSE COMPETITIVE HARM TO THE REGISTRANT IF PUBLICLY DISCLOSED. [***] OR [REDACTED] INDICATES THAT INFORMATION HAS BEEN REDACTED.",
+        "body_preview": "",
+        "token_count": 44,
+        "start_page": 0,
+        "end_page": 0
+      },
+      {
+        "index": 2,
+        "type": "CLAUSE",
+        "heading": "SPONSORSHIP AND SERVICES AGREEMENT",
+        "body_preview": "This SPONSORSHIP AND SERVICES AGREEMENT (the 'Agreement') is made and entered into as of the 19 th  ",
+        "token_count": 132,
+        "start_page": 0,
+        "end_page": 0
+      },
+      {
+        "index": 3,
+        "type": "CLAUSE",
+        "heading": "WITNESSETH:",
+        "body_preview": "WHEREAS, Constellation desires to provide to the HOF Entities, and the HOF Entities desire to obtain",
+        "token_count": 120,
+        "start_page": 0,
+        "end_page": 0
+      },
+      {
+        "index": 4,
+        "type": "CLAUSE",
+        "heading": "ARTICLE 1",
+        "body_preview": "",
+        "token_count": 2,
+        "start_page": 0,
+        "end_page": 0
+      },
+      {
+        "index": 5,
+        "type": "CLAUSE",
+        "heading": "SUPPLY OF PRODUCTS & SERVICES",
+        "body_preview": "",
+        "token_count": 6,
+        "start_page": 0,
+        "end_page": 0
+      },
+      {
+        "index": 6,
+        "type": "CLAUSE",
+        "heading": "1.1 Sale of Products & Services.",
+        "body_preview": "(a) The HOF Entities shall consult with Constellation to develop a comprehensive energy strategy wit",
+        "token_count": 800,
+        "start_page": 0,
+        "end_page": 1
+      },
+      {
+        "index": 7,
+        "type": "CLAUSE",
+        "heading": "1.3 Delivery; Acceptance .",
+        "body_preview": "With respect to the Products & Services delivered by Constellation to an HOF Entity (or its affiliat",
+        "token_count": 408,
+        "start_page": 1,
+        "end_page": 2
+      },
+      {
+        "index": 8,
+        "type": "CLAUSE",
+        "heading": "ARTICLE 2",
+        "body_preview": "",
+        "token_count": 2,
+        "start_page": 2,
+        "end_page": 2
+      },
+      {
+        "index": 9,
+        "type": "CLAUSE",
+        "heading": "PROVISION OF SERVICES",
+        "body_preview": "",
+        "token_count": 3,
+        "start_page": 2,
+        "end_page": 2
+      },
+      {
+        "index": 10,
+        "type": "CLAUSE",
+        "heading": "2.1 Services .",
+        "body_preview": "(a) Throughout the Term, Constellation shall provide to the HOF Entities and/or their respective aff",
+        "token_count": 543,
+        "start_page": 2,
+        "end_page": 3
+      },
+      {
+        "index": 11,
+        "type": "CLAUSE",
+        "heading": "SPONSORSHIP RIGHTS AND BENEFITS",
+        "body_preview": "3.1 Sponsorship Rights. Subject to the terms of this Agreement, the HOF Entities hereby grant to Con",
+        "token_count": 62,
+        "start_page": 3,
+        "end_page": 3
+      },
+      {
+        "index": 12,
+        "type": "CLAUSE",
+        "heading": "3.2 Production and Execution of Sponsorship Rights .",
+        "body_preview": "(a) The design, layout, content and copy of all advertising signs and/or promotional materials cover",
+        "token_count": 725,
+        "start_page": 3,
+        "end_page": 4
+      },
+      {
+        "index": 13,
+        "type": "CLAUSE",
+        "heading": "3.3 Intellectual Property Rights .",
+        "body_preview": "(a) Reservation of Rights. The HOF Entities and Constellation acknowledge that each Party owns or ha",
+        "token_count": 525,
+        "start_page": 4,
+        "end_page": 4
+      },
+      {
+        "index": 14,
+        "type": "CLAUSE",
+        "heading": "(c) Quality Control - Marks.",
+        "body_preview": "(i) Each licensee Party agrees, in connection with its use of any of the licensor Party's Marks, to ",
+        "token_count": 1228,
+        "start_page": 5,
+        "end_page": 6
+      },
+      {
+        "index": 15,
+        "type": "CLAUSE",
+        "heading": "ARTICLE 4",
+        "body_preview": "",
+        "token_count": 2,
+        "start_page": 6,
+        "end_page": 6
+      },
+      {
+        "index": 16,
+        "type": "CLAUSE",
+        "heading": "TERM AND TERMINATION",
+        "body_preview": "4.1 Term. The term of this Agreement (the 'Term'), unless mutually extended by written agreement of ",
+        "token_count": 55,
+        "start_page": 6,
+        "end_page": 6
+      },
+      {
+        "index": 17,
+        "type": "CLAUSE",
+        "heading": "4.2 Termination; Available Remedies .",
+        "body_preview": "(a) Right to Terminate for Default. A Party shall be in default hereunder if any of the following ev",
+        "token_count": 911,
+        "start_page": 7,
+        "end_page": 8
+      },
+      {
+        "index": 18,
+        "type": "CLAUSE",
+        "heading": "(d) Remedies; Effect of Termination or Expiration",
+        "body_preview": "(i) HOF Entity Remedies . In the event of an Event of Default by Constellation which is not cured wi",
+        "token_count": 408,
+        "start_page": 8,
+        "end_page": 8
+      },
+      {
+        "index": 19,
+        "type": "CLAUSE",
+        "heading": "ARTICLE 5",
+        "body_preview": "",
+        "token_count": 2,
+        "start_page": 8,
+        "end_page": 8
+      },
+      {
+        "index": 20,
+        "type": "CLAUSE",
+        "heading": "REPRESENTATIONS AND WARRANTIES; INDEMNIFICATION",
+        "body_preview": "",
+        "token_count": 5,
+        "start_page": 8,
+        "end_page": 8
+      },
+      {
+        "index": 21,
+        "type": "CLAUSE",
+        "heading": "5.1 Representations and Warranties .",
+        "body_preview": "(a) Each of the HOF Entities and Constellation represents and warrants that: (i) such Party has the ",
+        "token_count": 531,
+        "start_page": 8,
+        "end_page": 9
+      },
+      {
+        "index": 22,
+        "type": "CLAUSE",
+        "heading": "5.2 Indemnification .",
+        "body_preview": "(a)  By Constellation. Constellation agrees to defend, indemnify and hold harmless the HOF Entities ",
+        "token_count": 1368,
+        "start_page": 10,
+        "end_page": 11
+      },
+      {
+        "index": 23,
+        "type": "CLAUSE",
+        "heading": "ARTICLE 6",
+        "body_preview": "",
+        "token_count": 2,
+        "start_page": 11,
+        "end_page": 11
+      },
+      {
+        "index": 24,
+        "type": "CLAUSE",
+        "heading": "MISCELLANEOUS",
+        "body_preview": "6.1 Notices. All notices, requests, demands, and other communications required or permitted under th",
+        "token_count": 847,
+        "start_page": 11,
+        "end_page": 13
+      },
+      {
+        "index": 25,
+        "type": "CLAUSE",
+        "heading": "6.7 Force Majeure .",
+        "body_preview": "(a) Fire or Other Damage to Village. If the Village is damaged by fire, earthquake, act of God, the ",
+        "token_count": 1994,
+        "start_page": 13,
+        "end_page": 17
+      },
+      {
+        "index": 26,
+        "type": "CLAUSE",
+        "heading": "EXHIBIT B",
+        "body_preview": "FORM OF SUPPLIER COMPONENT QUESTIONNAIRE [Redacted] Exh. B-1 EXHIBIT C FORMS OF SECOND LEVEL AGREEME",
+        "token_count": 26,
+        "start_page": 18,
+        "end_page": 19
+      },
+      {
+        "index": 27,
+        "type": "CLAUSE",
+        "heading": "EXHIBIT D CONSTRUCTION SCHEDULE",
+        "body_preview": "EXHIBIT E SPONSORSHIP RIGHTS [Redacted] Exh. E-1 JOHNSON CONTROLS HALL OF FAME VILLAGE PRO FOOTBALL ",
+        "token_count": 41,
+        "start_page": 20,
+        "end_page": 22
+      },
+      {
+        "index": 28,
+        "type": "CLAUSE",
+        "heading": "EXHIBIT F HOF ENTITY MARKS",
+        "body_preview": "Exh. F-1 EXHIBIT G CONSTELLATION'S MARKS Exh. G-1",
+        "token_count": 16,
+        "start_page": 22,
+        "end_page": 23
+      }
+    ]
+  },
+  "Joint Venture": {
+    "filename": "ACCELERATEDTECHNOLOGIESHOLDINGCORP_04_24_2003-EX-10.13-JOINT VENTURE AGREEMENT.PDF",
+    "time_seconds": 3.4,
+    "total_chunks": 6,
+    "clause_count": 6,
+    "table_count": 0,
+    "def_count": 0,
+    "avg_tokens": 408,
+    "max_tokens": 2182,
+    "min_tokens": 2,
+    "headings": [
+      {
+        "index": 1,
+        "type": "CLAUSE",
+        "heading": "PREAMBLE",
+        "body_preview": "EXHIBIT 10.13",
+        "token_count": 3,
+        "start_page": 0,
+        "end_page": 0
+      },
+      {
+        "index": 2,
+        "type": "CLAUSE",
+        "heading": "JOINT VENTURE AGREEMENT",
+        "body_preview": "Collectible Concepts Group, Inc. (\"CCGI\") and Pivotal Self Service Tech, Inc. (\"PVSS\"), (the \"Partie",
+        "token_count": 2182,
+        "start_page": 0,
+        "end_page": 2
+      },
+      {
+        "index": 3,
+        "type": "CLAUSE",
+        "heading": "EXHIBIT A",
+        "body_preview": "",
+        "token_count": 2,
+        "start_page": 2,
+        "end_page": 2
+      },
+      {
+        "index": 4,
+        "type": "CLAUSE",
+        "heading": "GENERAL RESPONSIBILITIES OF THE PARTIES",
+        "body_preview": "",
+        "token_count": 6,
+        "start_page": 2,
+        "end_page": 2
+      },
+      {
+        "index": 5,
+        "type": "CLAUSE",
+        "heading": "Collectible Concepts Group will:",
+        "body_preview": "Obtain any licenses deemed by the Joint Venturers to add value in the marketing of the Products Prep",
+        "token_count": 135,
+        "start_page": 2,
+        "end_page": 2
+      },
+      {
+        "index": 6,
+        "type": "CLAUSE",
+        "heading": "Pivotal Self Service Tech, Inc. will:",
+        "body_preview": "Provide the Products in accordance with the specifications and quantities and time frames designated",
+        "token_count": 120,
+        "start_page": 2,
+        "end_page": 2
+      }
+    ]
+  },
+  "Non-Compete": {
+    "filename": "Quaker Chemical Corporation - NON COMPETITION AND NON SOLICITATION AGREEMENT.PDF",
+    "time_seconds": 12.6,
+    "total_chunks": 4,
+    "clause_count": 4,
+    "table_count": 0,
+    "def_count": 0,
+    "avg_tokens": 1104,
+    "max_tokens": 1912,
+    "min_tokens": 7,
+    "headings": [
+      {
+        "index": 1,
+        "type": "CLAUSE",
+        "heading": "PREAMBLE",
+        "body_preview": "NON-COMPETITION AND NON-SOLICITATION AGREEMENT BACKGROUND",
+        "token_count": 7,
+        "start_page": 0,
+        "end_page": 0
+      },
+      {
+        "index": 2,
+        "type": "CLAUSE",
+        "heading": "EXHIBIT 10.2 EXECUTION VERSION",
+        "body_preview": "THIS NON-COMPETITION AND NON-SOLICITATION AGREEMENT (this ' Agreement '), dated as of August 1, 2019",
+        "token_count": 995,
+        "start_page": 0,
+        "end_page": 1
+      },
+      {
+        "index": 3,
+        "type": "CLAUSE",
+        "heading": "1. Confidentiality; Non-competition; Non-solicitation.",
+        "body_preview": "(a) From and after the date hereof, each Seller shall, and shall cause its Affiliates to, hold, and ",
+        "token_count": 1505,
+        "start_page": 1,
+        "end_page": 4
+      },
+      {
+        "index": 4,
+        "type": "CLAUSE",
+        "heading": "4. Governing Law.",
+        "body_preview": "(a) THIS AGREEMENT SHALL BE GOVERNED BY AND CONSTRUED IN ACCORDANCE WITH THE INTERNAL LAWS OF THE CO",
+        "token_count": 1912,
+        "start_page": 4,
+        "end_page": 12
+      }
+    ]
+  },
+  "Franchise": {
+    "filename": "PfHospitalityGroupInc_20150923_10-12G_EX-10.1_9266710_EX-10.1_Franchise Agreement1.pdf",
+    "time_seconds": 30.1,
+    "total_chunks": 24,
+    "clause_count": 24,
+    "table_count": 0,
+    "def_count": 0,
+    "avg_tokens": 754,
+    "max_tokens": 2714,
+    "min_tokens": 2,
+    "headings": [
+      {
+        "index": 1,
+        "type": "CLAUSE",
+        "heading": "FORM OF FRANCHISE AGREEMENT",
+        "body_preview": "",
+        "token_count": 5,
+        "start_page": 0,
+        "end_page": 0
+      },
+      {
+        "index": 2,
+        "type": "CLAUSE",
+        "heading": "TABLE OF CONTENTS",
+        "body_preview": "- i -",
+        "token_count": 7,
+        "start_page": 1,
+        "end_page": 1
+      },
+      {
+        "index": 3,
+        "type": "CLAUSE",
+        "heading": "Pizza Fusion Holdings, Inc. Franchise Agreement",
+        "body_preview": "This Franchise Agreement (the ' Agreement ') is entered into as of the Agreement Date shown on the c",
+        "token_count": 200,
+        "start_page": 2,
+        "end_page": 2
+      },
+      {
+        "index": 4,
+        "type": "CLAUSE",
+        "heading": "RECITALS",
+        "body_preview": "We are in the business of franchising others to operate 'Pizza Fusion' restaurant businesses, which ",
+        "token_count": 429,
+        "start_page": 2,
+        "end_page": 2
+      },
+      {
+        "index": 5,
+        "type": "CLAUSE",
+        "heading": "1. RIGHTS GRANTED",
+        "body_preview": "",
+        "token_count": 3,
+        "start_page": 3,
+        "end_page": 3
+      },
+      {
+        "index": 6,
+        "type": "CLAUSE",
+        "heading": "1.1. Grant of Franchise.",
+        "body_preview": "1.1.1 We grant you the right, and you accept the obligation, to use the Proprietary Marks and the Sy",
+        "token_count": 201,
+        "start_page": 3,
+        "end_page": 3
+      },
+      {
+        "index": 7,
+        "type": "CLAUSE",
+        "heading": "1.2. Activities of Franchised Business.",
+        "body_preview": "1.2.1 You may operate the Franchised Business only from the Premises, only in accordance with the re",
+        "token_count": 1391,
+        "start_page": 3,
+        "end_page": 4
+      },
+      {
+        "index": 8,
+        "type": "CLAUSE",
+        "heading": "2. TERM; SUCCESSOR FRANCHISE AGREEMENTS",
+        "body_preview": "2.1. Term. This Agreement expires ten (10) years from the Agreement Date (the ' Term '), unless it i",
+        "token_count": 538,
+        "start_page": 5,
+        "end_page": 5
+      },
+      {
+        "index": 9,
+        "type": "CLAUSE",
+        "heading": "3. FEES",
+        "body_preview": "3.1. Initial Franchise Fee . You must pay us an initial franchise fee of $30,000 when you sign this ",
+        "token_count": 85,
+        "start_page": 5,
+        "end_page": 5
+      },
+      {
+        "index": 10,
+        "type": "CLAUSE",
+        "heading": "3.2. Royalty",
+        "body_preview": "3.2.1. You must pay us a royalty fee (' Royalty ') equal to six percent (6%) of your Gross Revenues.",
+        "token_count": 1869,
+        "start_page": 5,
+        "end_page": 7
+      },
+      {
+        "index": 11,
+        "type": "CLAUSE",
+        "heading": "4. SITE SELECTION, PREPARATION, AND OPENING DEADLINE",
+        "body_preview": "4.1. Site Selection and Approval . You will be responsible, at your own expense, for finding and the",
+        "token_count": 2714,
+        "start_page": 7,
+        "end_page": 11
+      },
+      {
+        "index": 12,
+        "type": "CLAUSE",
+        "heading": "5. TRAINING",
+        "body_preview": "",
+        "token_count": 2,
+        "start_page": 11,
+        "end_page": 11
+      },
+      {
+        "index": 13,
+        "type": "CLAUSE",
+        "heading": "5.1. Initial Training Program",
+        "body_preview": "5.1.1. Before you begin operating, the two persons who you designate (and who we find acceptable) to",
+        "token_count": 1131,
+        "start_page": 11,
+        "end_page": 12
+      },
+      {
+        "index": 14,
+        "type": "CLAUSE",
+        "heading": "6. OPERATIONS",
+        "body_preview": "6.1. Compliance with Standards. You agree to comply with all mandatory specifications and procedures",
+        "token_count": 338,
+        "start_page": 12,
+        "end_page": 13
+      },
+      {
+        "index": 15,
+        "type": "CLAUSE",
+        "heading": "6.4 Sourcing of Other Products, Equipment and Supplies.",
+        "body_preview": "6.4.1. Without limiting Section 6.3 [Secret Recipe Products] above, we have the right to require tha",
+        "token_count": 1826,
+        "start_page": 13,
+        "end_page": 14
+      },
+      {
+        "index": 16,
+        "type": "CLAUSE",
+        "heading": "6.12. Major Accounts",
+        "body_preview": "6.12.1. You acknowledge that our negotiation of Major Accounts, including rates and services to be p",
+        "token_count": 776,
+        "start_page": 15,
+        "end_page": 15
+      },
+      {
+        "index": 17,
+        "type": "CLAUSE",
+        "heading": "6.15. Operating Principal and Management Supervision",
+        "body_preview": "6.15.1. If you are a corporation, partnership or LLC, you must have an individual owner serve as you",
+        "token_count": 811,
+        "start_page": 15,
+        "end_page": 16
+      },
+      {
+        "index": 18,
+        "type": "CLAUSE",
+        "heading": "6.19. Insurance .",
+        "body_preview": "6.19.1 .  Types and Amounts of Coverage. Throughout the entire Term, you must maintain such types of",
+        "token_count": 1874,
+        "start_page": 16,
+        "end_page": 18
+      },
+      {
+        "index": 19,
+        "type": "CLAUSE",
+        "heading": "7. PROPRIETARY MARKS",
+        "body_preview": "7.1. Your Right to Use the Proprietary Marks . Your right to use the Proprietary Marks applies only ",
+        "token_count": 776,
+        "start_page": 19,
+        "end_page": 20
+      },
+      {
+        "index": 20,
+        "type": "CLAUSE",
+        "heading": "7.5. Third-Party Challenges . The parties agree as follows:",
+        "body_preview": "7.5.1 You agree to promptly notify us if you learn of any suspected infringement of the Proprietary ",
+        "token_count": 380,
+        "start_page": 20,
+        "end_page": 20
+      },
+      {
+        "index": 21,
+        "type": "CLAUSE",
+        "heading": "8. BUSINESS RECORDS AND REPORTING",
+        "body_preview": "8.1. Business Records . You agree to keep complete and accurate books, records, and accounts of all ",
+        "token_count": 81,
+        "start_page": 20,
+        "end_page": 20
+      },
+      {
+        "index": 22,
+        "type": "CLAUSE",
+        "heading": "8.2. Reports and Financial Statements .",
+        "body_preview": "8.2.1 You agree to submit financial and operational reports and records and documents to us at the t",
+        "token_count": 1006,
+        "start_page": 20,
+        "end_page": 21
+      },
+      {
+        "index": 23,
+        "type": "CLAUSE",
+        "heading": "9. MARKETING FUND AND ADVERTISING",
+        "body_preview": "",
+        "token_count": 6,
+        "start_page": 22,
+        "end_page": 22
+      },
+      {
+        "index": 24,
+        "type": "CLAUSE",
+        "heading": "9.1 Pizza Fusion Marketing Fund",
+        "body_preview": "9.1.1. We have the right, but not the obligation, to establish, maintain, and administer a fund for ",
+        "token_count": 1647,
+        "start_page": 22,
+        "end_page": 23
+      }
+    ]
+  }
+}
