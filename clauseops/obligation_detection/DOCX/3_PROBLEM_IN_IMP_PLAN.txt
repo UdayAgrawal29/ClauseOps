@@ -1,0 +1,98 @@
+Great instinct. Let me do a surgical cross-reference — I'll extract every real data point from the pipeline output that Phase 4 would need to consume, and verify my plan handles each one correctly.
+
+Ran command: `# Extract ALL segments with DURATION entities + their clause types and relations
+Select-String -Path "clauseops\entity_extraction\DOCX\PIPELINE_OUTPUTS_MIXED.md" -Pattern "^\*\*Class:\*\*|^- DURATION:|^- DATE:|^- MONEY:|^- PARTY:|^- PERCENTAGE:|^\*\*Heading:\*\*|^- .+ -> .+ ->|^## Document:" | ForEach-Object { "$($_.LineNumber): $($_.Line.Trim())" }`
+
+That's truncated. Let me get the beginning of the output too (2TheMart, DeltaThree, EcoScience):
+
+Viewed PIPELINE_OUTPUTS_MIXED.md:1-100
+Ran command: `# CRITICAL: Extract EVERY DURATION entity with its full context (heading + clause type + segment number)
+# This is what the date normalizer will actually consume
+$content = Get-Content "clauseops\entity_extraction\DOCX\PIPELINE_OUTPUTS_MIXED.md" -Raw
+$pattern = '(?ms)### Segment (\d+).*?(?=### Segment|\z)'
+$matches = [regex]::Matches($content, $pattern)
+$results = @()
+foreach ($m in $matches) {
+    $seg = $m.Value
+    if ($seg -match 'DURATION:') {
+        $segNum = if ($seg -match '### Segment (\d+)') { $Matches[1] } else { "?" }
+        $heading = if ($seg -match '\*\*Heading:\*\* (.+)') { $Matches[1].Trim() } else { "?" }
+        $cls = if ($seg -match '\*\*Class:\*\* (.+)') { $Matches[1].Trim() } else { "?" }
+        $dur = if ($seg -match '- DURATION: (.+)') { $Matches[1].Trim() } else { "?" }
+        $rels = @()
+        $relMatches = [regex]::Matches($seg, '- (.+ -> .+ -> .+)')
+        foreach ($r in $relMatches) { $rels += $r.Groups[1].Value.Trim() }
+        $relStr = if ($rels.Count -gt 0) { $rels -join " | " } else { "(no relations)" }
+        $results += "Seg$segNum | $heading | $cls | DUR=[$dur] | RELS=[$relStr]"
+    }
+}
+$results | ForEach-Object { Write-Output $_ }`
+
+Excellent — now I can see everything. Let me also check what entity structure gets passed between pipeline stages:
+
+Viewed app.py:1-100
+
+Now let me check how the entity_results are structured in the pipeline data flow:
+
+Ran command: `# Check what the entity_results dict ACTUALLY contains — look for 'relations' in the response builder
+Select-String -Path "clauseops\app.py" -Pattern "relations|entity_data|_build_response" -Context 2,2 | Select-Object LineNumber, Line | Format-Table -AutoSize -Wrap`
+
+**Critical finding!** The `_build_response` function does NOT pass `relations` through to the response. Let me verify what `extract_entities_from_clause` actually returns:
+
+Viewed extractor.py:394-431
+
+Good — `extract_entities_from_clause` DOES return `relations` in its dict (line 403). The `_build_response` in app.py just doesn't use them for the web UI yet. Now let me verify the exact entity dict structure:
+
+Ran command: `# Check the exact shape of entity dicts - what fields are present
+Select-String -Path "clauseops\entity_extraction\extractor.py" -Pattern '"text"|"label"|"start"|"end"|"source"|"resolved_name"|"subject"|"verb"|"object"' -Context 0,1 | Select-Object LineNumber, Line | Format-Table -AutoSize`
+
+Now I have the complete picture. Let me document every real-data gap I found:
+
+Ran command: `# Critical: Does the pipeline output have "five (25) business days" - that's a typo in the source contract!
+Select-String -Path "clauseops\entity_extraction\DOCX\PIPELINE_OUTPUTS_MIXED.md" -Pattern "five \(25\)" | Select-Object LineNumber, Line`
+Ran command: `# Check DATE entities that are actually recurring/relative (NOT calendar dates) — these are problematic for normalization
+Select-String -Path "clauseops\entity_extraction\DOCX\PIPELINE_OUTPUTS_MIXED.md" -Pattern "- DATE: .*(?:each|every|the \d+th|quarterly|monthly|annual|fiscal)" | Select-Object LineNumber, Line`
+Ran command: `# Check all absolute DATE entities in segment 1 (preambles) — these are the anchor dates we need
+Select-String -Path "clauseops\entity_extraction\DOCX\PIPELINE_OUTPUTS_MIXED.md" -Pattern "^## Document:|^- DATE:" | ForEach-Object { "$($_.LineNumber): $($_.Line.Trim())" } | Select-Object -First 20`
+Ran command: `# Check what NOVO's preamble date looks like - it's in the heading not the entity!
+Select-String -Path "clauseops\entity_extraction\DOCX\PIPELINE_OUTPUTS_MIXED.md" -Pattern "December 19" | Select-Object LineNumber, Line`
+
+Now I have the complete picture. Let me compile all the gaps and edge cases I found and update the implementation plan:
+
+Viewed implementation_plan.md:1-403
+
+Now I have a complete picture. Let me update the plan with every edge case I found from the real output:
+
+Edited implementation_plan.md
+
+The plan is now fully cross-referenced. Here's a summary of what I did:
+
+---
+
+## What I Found & Changed
+
+I went through all 3,704 lines of the real pipeline output and found **7 edge cases** that would have broken the implementation if not caught upfront:
+
+| # | Edge Case | Impact | Where Found |
+|---|---|---|---|
+| 1 | `"five (25) business days"` — word vs parenthetical mismatch | Number parser would return 5 instead of 25 | DeltaThree Seg 8 |
+| 2 | `"the tenth day of each calendar month"` — recurring, not absolute | `dateparser.parse()` would return None and crash | 6 segments across 3 contracts |
+| 3 | RENEWAL/TERMINATION clauses with **zero relations** | Task generator would skip the most important clauses | 2TheMart, GopageCorp, NOVO |
+| 4 | PERCENTAGE/MONEY as relation objects | Task generator only expected PARTY/ORG | NOVO Seg 15 |
+| 5 | Anchor date in Seg 4 (not Seg 1) for NOVO | Would miss the signing date | NOVO |
+| 6 | ENTIRE_AGREEMENT clause with real payment obligation | Task generator would skip it | 2TheMart Seg 20 |
+| 7 | 3 different DURATIONs in one termination clause | Would generate 1 task instead of 3 | EcoScience Seg 13 |
+
+### Plan Updates Made:
+- **Date normalizer**: Added Layer 3 (RECURRING detection), updated anchor date scan to segments 1–5, parenthetical-wins rule
+- **DeadlineRecord schema**: Added `RECURRING` date_type + `recurrence_description` field
+- **Task generator**: 4 new design rules (don't skip by clause_type, one task per DURATION, handle empty relations, include % and $ in descriptions)
+- **Task templates**: Added ENTIRE_AGREEMENT* and RECURRING templates
+- **Priority rules**: Added RECURRING as MEDIUM, PREAMBLE/DEFINITIONS/SIGNATURE_BLOCK as NONE (skip)
+- **Verification checklist**: Expanded from 14 items to 26 items, each tied to a specific segment
+
+The updated plan is at [implementation_plan.md](file:///C:/Users/Uday%20Agrawal/.gemini/antigravity-ide/brain/2c96ab75-02b5-4a0c-bddb-cd69c73ce61d/implementation_plan.md). Please review and give the green light to start building.
+
+
+
+this arw fixed in implementation_plan_1
