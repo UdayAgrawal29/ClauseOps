@@ -12,3 +12,12 @@ TEST_PDFS_NEW/
 segmentation_old_pipeline/
 to_be_deleted/
 scratch/
+
+# runtime artifacts
+celerybeat-schedule*
+.vscode/
+*.zip
+
+# personal / local-only
+PRESENTATION.md
+.kiro/
