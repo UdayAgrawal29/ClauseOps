@@ -30,6 +30,14 @@ from clauseops.obligation_detection.number_parser import (
     parse_unit,
     parse_duration,
 )
+from clauseops.obligation_detection.bert_classifier import (
+    extract_clause_bert,
+    is_bert_available,
+)
+from clauseops.obligation_detection.qa_extractor import (
+    extract_agent_action,
+    is_qa_available,
+)
 
 __all__ = [
     # Dataclasses
@@ -44,9 +52,16 @@ __all__ = [
     "classify_contract_obligations",
     "normalize_contract_dates",
     "generate_tasks_for_contract",
+    # BERT
+    "extract_clause_bert",
+    "is_bert_available",
+    # QA extractor (offline agent/action)
+    "extract_agent_action",
+    "is_qa_available",
     # Utilities
     "extract_anchor_date",
     "parse_number",
     "parse_unit",
     "parse_duration",
 ]
+
