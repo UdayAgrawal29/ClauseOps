@@ -1,0 +1,49 @@
+{
+  "format": "squad_v2",
+  "question_templates": {
+    "OBLIGATION": {
+      "agent": "Who is required to act?",
+      "action": "What must they do?"
+    },
+    "PROHIBITION": {
+      "agent": "Who is restricted?",
+      "action": "What are they prohibited from doing?"
+    },
+    "PERMISSION": {
+      "agent": "Who is granted a right?",
+      "action": "What are they permitted to do?"
+    }
+  },
+  "max_action_words": 30,
+  "action_boundary_markers": [
+    ", except",
+    ", unless",
+    ", provided that",
+    ", provided,",
+    "; provided",
+    " provided that",
+    ", subject to",
+    "; subject to",
+    ", but only",
+    ", to the extent that",
+    ", in the event that",
+    "; provided,"
+  ],
+  "total_examples": 4024,
+  "answerable": 2030,
+  "no_answer": 1994,
+  "records_used": 2012,
+  "records_dropped": 117,
+  "modality_record_counts": {
+    "DECLARATIVE": 997,
+    "OBLIGATION": 449,
+    "PERMISSION": 307,
+    "PROHIBITION": 259
+  },
+  "splits": {
+    "train": 3018,
+    "val": 502,
+    "test": 504
+  },
+  "seed": 42
+}

@@ -1,0 +1,19 @@
+{
+  "modality_labels": {
+    "OBLIGATION": 0,
+    "PROHIBITION": 1,
+    "PERMISSION": 2,
+    "DECLARATIVE": 3
+  },
+  "ner_tags": {
+    "O": 0,
+    "B-AGENT": 1,
+    "I-AGENT": 2,
+    "B-ACTION": 3,
+    "I-ACTION": 4
+  },
+  "total_annotations": 1998,
+  "train_size": 1498,
+  "val_size": 249,
+  "test_size": 251
+}
