@@ -390,22 +390,22 @@ def _is_event_relative_duration(duration_text: str, body_text: str) -> bool:
         context = body_lower[start:end]
 
     # Event-trigger patterns: phrases that indicate the duration is relative
-    # to a future event, not the signing date
+    # to a future event, not the signing date. M2: the determiner group
+    # (?:\w+\s+){0,2} allows "of its receipt", "of the written notice",
+    # "of such termination" — earlier patterns missed possessives/adjectives.
     event_triggers = [
-        r"of\s+(?:written\s+)?(?:notice|demand|request)",
-        r"of\s+(?:such\s+)?(?:termination|expiration|cancellation)",
-        r"of\s+(?:such\s+)?(?:receipt|delivery|completion)",
-        r"of\s+(?:such\s+)?(?:breach|default|failure)",
-        r"of\s+(?:such\s+)?(?:notice\s+of\s+breach)",
-        r"after\s+(?:written\s+)?(?:notice|demand|request)",
+        r"of\s+(?:\w+\s+){0,2}(?:notice|demand|request)\b",
+        r"of\s+(?:\w+\s+){0,2}(?:termination|expiration|cancellation)\b",
+        r"of\s+(?:\w+\s+){0,2}(?:receipt|delivery|completion|acceptance)\b",
+        r"of\s+(?:\w+\s+){0,2}(?:breach|default|failure)\b",
+        r"after\s+(?:\w+\s+){0,2}(?:notice|demand|request|receipt|delivery)\b",
+        r"after\s+having\s+\w+",
+        r"after\s+(?:the\s+|any\s+|such\s+)?\w+(?:\s+\w+){0,2}\s+has\s+\w+",
+        r"after\s+(?:the\s+)?\w+(?:\s+\w+){0,2}\s+(?:expresses|expressed|occurs|occurred|delivers|delivered|elects|elected)\b",
         r"after\s+(?:the\s+date\s+of\s+)?such\s+notice",
         r"after\s+(?:receiving|receipt\s+of)",
-        r"following\s+(?:written\s+)?(?:notice|notification)",
-        r"following\s+(?:the\s+)?(?:termination|expiration|closing)",
-        r"following\s+(?:the\s+)?(?:receipt|delivery)",
-        r"from\s+(?:the\s+)?(?:date\s+of\s+)?(?:termination|expiration)",
-        r"from\s+(?:the\s+)?(?:date\s+of\s+)?(?:notice|receipt)",
-        r"of\s+(?:the\s+)?(?:date\s+(?:of\s+)?)?(?:such|said)\s+(?:notice|termination)",
+        r"following\s+(?:\w+\s+){0,2}(?:notice|notification|termination|expiration|closing|receipt|delivery)\b",
+        r"from\s+(?:the\s+)?(?:date\s+of\s+)?(?:termination|expiration|notice|receipt)\b",
     ]
 
     for trigger in event_triggers:
