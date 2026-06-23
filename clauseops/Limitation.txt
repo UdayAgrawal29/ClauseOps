@@ -1,32 +1,127 @@
-## Segmentation
-For formats where headings are purely visual (bold-only, underlined, indentation-only) 
-and Docling ALSO misses them — we accept that as a known MVP limitation.
+==============================================================================
+ClauseOps — KNOWN LIMITATIONS
+==============================================================================
+This file has two parts:
+  PART A — EARLIER LIMITATIONS  : what was true BEFORE the Phase-4 rebuild +
+                                  pipeline-hardening work (with current status).
+  PART B — CURRENT LIMITATIONS  : what is STILL true AFTER that work.
 
-## Classification
-These are the things we document honestly and accept as final limitations of the classification phase:
+Full engineering history: PROJECT IDEA/ClauseOps_Phase4_and_Pipeline_Hardening.md
 
-1. ENTIRE_AGREEMENT is a catch-all for uncovered clause types. Clauses like "Grant of License," "Rights Granted," "Delivery of Content," "Encoding and Delivery," "Survival" all land in ENTIRE_AGREEMENT because the 18-category CUAD taxonomy doesn't have homes for them. This is a taxonomy design choice, not a model failure. The core task-generating categories are unaffected.
-2. "Relationship of the Parties" and "Enforcement of IP" don't classify well. These clause types appear in every commercial contract and have no clean mapping to our 18 categories. They'll continue to get random labels (CONFIDENTIALITY, NOTICES, DELIVERY_OBLIGATIONS). Neither type generates tasks, so downstream impact is zero — but they'll look wrong on a dashboard.
-3. RENEWAL overfit will persist partially even after Fix 3 is fully working. Term-only clauses with no explicit renewal keyword ("shall continue for the time periods set forth in Schedules 1 and 2") will always be borderline predictions that go to REVIEW rather than HIGH. That's the correct behavior — they should be in the review tier, not silently misclassified. But they'll still show the RENEWAL label rather than a non-existent TERM_DURATION label.
-4. Out-of-distribution contracts have higher error rates. Chinese supply contracts (Incoterms formatting, merged inline clauses), German/European distribution agreements with non-standard English, and form-style contracts (like Fulucai's checkbox-heavy agreement) all perform worse than standard US commercial contracts. LEDGAR is a US corpus and the model reflects that. For the target users (Indian SMEs dealing with standard vendor/NDA/employment contracts), this isn't a meaningful limitation.
-5. Segmentation failures are unfixable at the classifier level. The PORT OF DESTINATION segment from Batch 1 (INSURANCE + PAYMENT merged into one chunk) remains unaddressed. The classifier correctly does what it can with malformed input — the segmenter needs to be smarter about inline sub-clauses in numbered-list format contracts. Not worth fixing now.
-6. Short NOTICES address sub-sections get filtered. Any NOTICES address block that is short (<= 20 tokens) and has no legal verbs will be swept by the signature block filter. The parent NOTICES clause is preserved, so task generation is unaffected — but the UI won't show the actual notice addresses as separate cards. Acceptable.
 
-## Entity Extraction (NER)
-7. Hyphenated company names (e.g., "i-Escrow") are sometimes tokenized as separate ORG fragments ("i", "-", "Escrow") by spaCy. This is a spaCy tokenizer limitation. The correct full entity is still present alongside the fragments, and relation extraction uses the correct one. Cosmetic issue only — does not affect downstream task generation.
-8. ORG false positives on capitalized legal terms ("Transaction", "Losses", "Marks", "hereby", "Party") persist from spaCy NER. These don't affect PARTY extraction or task generation since the task engine operates on PARTY entities and clause classification, not raw ORG.
-9. In contracts where the preamble uses only company short-names as aliases (e.g., ("i-Escrow") and ("2TheMart")), these remain as ORG rather than promoting to PARTY. The alias resolver correctly identifies them as company names, not role-words like "Licensor" or "Talent". Relations still track them accurately via the ORG label.
-## Date Normalization
-10. Business day calculations use a simple Mon�Fri calendar (pandas BDay). Country-specific public holidays are NOT excluded. For contracts specifying "business days" in jurisdictions with significant holidays, the computed deadline may be off by 1�3 days. Acceptable for MVP; holiday calendars can be added in v2.
-11. Conditional dates ("upon completion of Phase 2", "when the goods are delivered") cannot be resolved to calendar dates. These are flagged with requires_review=True for human review. This is correct behavior per TIMEX3 temporal annotation standards.
-12. If no contract signing/effective date is found in the preamble, ALL relative durations are flagged as requires_review=True. The system will not hallucinate anchor dates.
-13. Recurring deadlines ("on the 15th of each month", "quarterly") are detected but NOT expanded into individual task instances. One task is generated with the recurrence noted in the description. Full recurrence expansion is a v2/calendar-integration feature.
+==============================================================================
+PART A — EARLIER LIMITATIONS (pre-rebuild)  [with current status]
+==============================================================================
 
-## Obligation Detection
-14. Deontic modal detection is rule-based (pattern matching on "shall", "must", "may", etc.). It achieves ~92% accuracy on standard English contracts but will miss obligations expressed without modal verbs (e.g., "The vendor delivers within 14 days" � no "shall"/"must"). These are uncommon in formal legal drafting but exist in informal agreements.
-15. Nested/conditional obligations ("If X occurs, then Party shall Y within Z days") are detected as CONDITIONAL type. The system does not attempt to resolve the triggering condition � it flags for human review. This is the correct conservative approach.
+--- Segmentation ---
+A1. Purely visual headings (bold-only / underlined / indentation-only) that Docling
+    also misses are not detected.                                  STATUS: STILL APPLIES.
+A2. Section-level sub-clauses inside a numbered-list contract were not split; whole
+    Articles merged into one chunk ("the segmenter needs to be smarter about inline
+    sub-clauses ... not worth fixing now").                        STATUS: FIXED (M1, Phase A
+    — provision splitter for Section/Article/Clause markers).
 
-## Obligation Detection (v3 additions)
-16. PERMISSION tasks (`may` verbs) are included at LOW priority. They represent rights, not obligations. For a pure compliance-only dashboard, these can be filtered out in the UI layer. However, they provide useful context (e.g., `Party A may terminate if...` tells you what the counterparty can do). Decision: Keep them, mark as LOW.
-17. The `will` modal verb is semantically filtered using spaCy dependency parsing. Passive constructions (`X will be done`) and declarative uses (`The purpose will be IT Development`) are rejected. However, the parser is imperfect (~90% accuracy on legal text). Some edge cases may slip through or be incorrectly filtered. These will surface as requires_review tasks.
-18. Liability limitation clauses (`shall not exceed `) are now filtered by the stative verb blocklist (`exceed` is in `_SKIP_VERBS`). This means we DON'T generate tasks for liability caps. This is correct behavior � liability caps are constraints, not actionable obligations. If the user needs liability cap tracking, it should be a separate feature (v2).
+--- Classification ---
+A3. ENTIRE_AGREEMENT is a catch-all bucket; clauses like Grant of License, Delivery,
+    Survival, Further Assurances land there because the 18-category taxonomy has no
+    home for them.                                                 STATUS: TAXONOMY UNCHANGED,
+    but it no longer drops obligations — classification is now ADVISORY, not a hard gate
+    (M1, Phase B). The label may still look wrong on a dashboard.
+A4. "Relationship of the Parties" / "Enforcement of IP" get arbitrary labels.  STILL APPLIES
+    (cosmetic; these rarely generate tasks).
+A5. RENEWAL overfit: term-only clauses with no renewal keyword stay borderline.  STILL APPLIES.
+A6. Out-of-distribution contracts (non-US, non-English, form/checkbox) classify worse
+    (LEDGAR is a US corpus).                                       STATUS: STILL APPLIES.
+A7. Short NOTICES address sub-blocks get swept by the signature-block filter.  STILL APPLIES
+    (parent NOTICES clause preserved; no task impact).
+
+--- Entity Extraction (NER) ---
+A8. Hyphenated company names ("i-Escrow") sometimes split into ORG fragments.  STILL APPLIES
+    (cosmetic; correct full entity also present).
+A9. ORG false positives on capitalized legal terms ("Transaction", "Losses").  STILL APPLIES
+    (no PARTY/task impact).
+A10. Short-name-only aliases stay ORG rather than promoting to PARTY.           STILL APPLIES.
+
+--- Date Normalization ---
+A11. Business-day math uses Mon-Fri only; country public holidays not excluded.  STILL APPLIES.
+A12. Conditional dates ("upon completion of Phase 2") flagged requires_review, not
+     resolved.                                                     STATUS: CORRECT BY DESIGN.
+A13. If no anchor/effective date is found, all relative durations -> requires_review
+     (no hallucinated anchors).                                   STATUS: CORRECT BY DESIGN.
+A14. Recurring deadlines detected but NOT expanded into instances / a first concrete
+     date.                                                         STATUS: STILL APPLIES.
+
+--- Obligation Detection (original architecture) ---
+A15. Deontic detection was rule/NLI based and MISSED obligations without a modal verb
+     ("The vendor delivers within 14 days").                      STATUS: LARGELY FIXED for
+     modal-less LISTS under "Obligations of {Party}" headings / "...as follows:" lead-ins
+     (M3, Phase G). Free-flowing modal-less prose and tables still missed (see B1, B3).
+A16. Nested/conditional obligations flagged CONDITIONAL, trigger not resolved.  CORRECT BY DESIGN.
+A17. PERMISSION ("may") tasks were noise (~56% of output).         STATUS: FIXED — filtered by
+     default (v4.1 config; still configurable).
+A18. The "will" modal + liability caps ("shall not exceed") produced bad tasks.  STATUS:
+     liability caps filtered; "will"/liability-disclaimer phrasing still occasionally
+     misclassified (see B5).
+A19. (Original v4 extraction) Zero-shot NLI + spaCy dependency parsing hallucinated
+     parties (hardcoded "Contracting Party"), reversed logic, ~15% accuracy.    STATUS:
+     FIXED — replaced by the custom modality classifier + offline extractive-QA extractor
+     (grounded, cannot hallucinate). This was the Phase-4 rebuild.
+
+
+==============================================================================
+PART B — CURRENT LIMITATIONS (after Phase-4 rebuild + M1-M3 hardening)
+==============================================================================
+Validated by hand against 9 ground-truthed contracts (Co-Branding, Endorsement,
+Affiliate, Development, Content License x3, Joint Venture x2).
+
+Overall: production-viable for standard "shall"/"will"-drafted commercial contracts
+(~85-95% recall & precision; deadlines mostly correct). The anti-hallucination grounding
+invariant held on 100% of outputs (every extracted party/action is a substring of the
+source clause). Weaker on table-based and passive-declarative drafting styles.
+
+B1. TABLE-based duties: a duty-table MINER is now implemented (M4) — duty/
+    responsibility/deliverable tables with a party in the first column are mined
+    into "{party} shall {duty}" obligations (unit-tested). RESIDUAL: this only helps
+    when the table SURVIVES segmentation. Docling sometimes drops or mangles a duty
+    table before it reaches obligation detection (e.g. BORROWMONEY's "Member / Duties
+    Description" matrix was lost in segmentation), so the real remaining bottleneck is
+    table survival, not mining. Payment/royalty/contribution tables are intentionally
+    NOT mined.
+
+B2. Bulleted sub-duty lists under a single "... will include the following:" parent
+    (e.g. a Manager-duties list a-e) partly collapse / are missed, because the bullets
+    lack their own subject+modal and spaCy may merge them into the parent sentence.
+
+B3. Passive operational obligations ("books ... will be kept", "funds will be placed",
+    "distribution will be made") are now recovered (M4): rewritten to active voice with
+    an agent taken from the section's governing party, an operational entity named in
+    the sentence ("the Venture"), or a known organizational party. Every such task is
+    flagged requires_review (the agent is inferred, not the grammatical subject, and the
+    rewritten phrasing can be rough on complex sentences). RESIDUAL: passive clauses with
+    no determinable operational entity ("Member meetings will be held quarterly") are
+    still missed.
+
+B4. QA self-referential / bad-agent spans on complex multi-party sentences
+    ("Rogers shall pay to Rogers"; agent = "its sole expense ..."). Model-level; would
+    need teacher-data regeneration to improve. Low frequency.
+
+B5. Liability disclaimers ("Members will not be personally liable") occasionally
+    misclassified as PROHIBITION by the modality classifier. Model-level precision.
+
+B6. Passive/gerund action spans yield awkward (but content-correct) titles
+    ("must not assigned", "must not developing"). Active-voice normalization deferred.
+
+B7. Recurring deadlines: still flagged with a recurrence description but not expanded to
+    a first concrete due_date (carried over from A14).
+
+B8. Deadline labels ("Notice Period" / "Cure Period") are inferred and often imprecise;
+    they appear only in the task description (titles no longer use them).
+
+B9. Recall is contract-style dependent: infinitive-list JV ~78%, table/passive JV ~60%,
+    standard shall/will contracts ~85-90%.
+
+--- Inherited & by-design (still apply) ---
+B10. OCR for scanned PDFs is intentionally deferred (not implemented).
+B11. Business-day deadline math ignores public holidays (A11).
+B12. No anchor date -> relative deadlines flagged requires_review, never guessed (A13).
+B13. Out-of-distribution / non-US-English contracts perform worse (A6).

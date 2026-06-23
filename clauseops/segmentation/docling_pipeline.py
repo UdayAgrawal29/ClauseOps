@@ -524,6 +524,176 @@ def _post_process(clauses: list[ClauseChunk]) -> list[ClauseChunk]:
 
 
 # ============================================================================
+# Section-level re-splitting (Phase A — fixes article-level merging)
+# ============================================================================
+#
+# WHY THIS EXISTS:
+#     Docling sometimes emits an entire Article (with several "Section X.YY"
+#     provisions inside) as ONE body blob, because it detects only the coarse
+#     "ARTICLE III" header and treats the inner "Section 3.01 ... Section 3.07"
+#     markers as body text. The earlier safety nets (_is_missed_heading,
+#     _try_split_inline_heading) only catch SHORT, bare-numbered headings, so
+#     these merged articles survive as a single ClauseChunk. Downstream this
+#     collapses ~14 distinct obligations into one and misattributes deadlines.
+#
+#     This pass runs AFTER assembly on every CLAUSE body and splits it at
+#     genuine provision-start markers (Section / Article / Clause N...).
+#
+# WHY IT'S GENERAL (not tuned to one PDF):
+#     It keys off the *structural grammar* of legal drafting — explicit
+#     "Section/Article/Clause" markers followed by a provision — which recurs
+#     across virtually all English commercial contracts. It does NOT match any
+#     party names, doc-specific strings, or visual cues. Cross-references
+#     ("pursuant to Section 4.01", "Sections 3.06 and 4.02 hereof") are
+#     excluded by preceding/following cue-word guards, and we only split when
+#     ≥2 genuine markers are present so prose is never shredded.
+
+# Marker that can START a provision (singular Section/Article/Clause + number).
+# Plural forms ("Sections 3.06") don't match because a letter, not whitespace,
+# follows the base word.
+_PROVISION_MARKER_RE = re.compile(
+    r'(?:Section|Sec\.|Article|Clause)\s+(?:\d+(?:\.\d+)*|[IVXLCDM]+)',
+    re.IGNORECASE,
+)
+
+# If these words immediately PRECEDE the marker, it's a citation, not a start.
+_XREF_PRECEDING_RE = re.compile(
+    r'(?:this|that|these|those|such|said|in|under|of|to|per|see|with|within|'
+    r'pursuant|herein|hereunder|hereof|hereto|and|or|preceding|foregoing|'
+    r'including|provided|except|under\s+this|of\s+this)\s*$',
+    re.IGNORECASE,
+)
+
+# If these immediately FOLLOW the marker (after an optional [..] label),
+# it's a citation, not a start.
+_XREF_FOLLOWING_RE = re.compile(
+    r'^\s*(?:\[[^\]]*\]\s*)?(?:hereof|hereto|herein|above|below|and\b|or\b|'
+    r'through\b|of\s+this|,)',
+    re.IGNORECASE,
+)
+
+
+def _is_genuine_provision_start(body: str, start: int, end: int) -> bool:
+    """Decide whether a Section/Article marker at [start:end] begins a new
+    provision (True) or is a cross-reference/citation (False)."""
+    preceding = body[max(0, start - 48):start]
+    following = body[end:end + 48]
+    if _XREF_PRECEDING_RE.search(preceding):
+        return False
+    if _XREF_FOLLOWING_RE.match(following):
+        return False
+    return True
+
+
+def _carve_provision_heading(segment: str) -> Optional[str]:
+    """Build a short heading from a provision segment that starts with a
+    Section/Article marker, e.g.:
+        "Section 3.01 [Printing of Calling Cards] . Printing..." -> "Section 3.01 Printing of Calling Cards"
+        "Section 5.01. Payment Terms. Any amounts..."            -> "Section 5.01 Payment Terms"
+    Returns None if no marker prefix is found.
+    """
+    m = re.match(
+        r'^((?:Section|Sec\.|Article|Clause)\s+(?:\d+(?:\.\d+)*|[IVXLCDM]+))'
+        r'\s*(?:\[([^\]]*)\])?\.?\s*',
+        segment, re.IGNORECASE,
+    )
+    if not m:
+        return None
+    marker = m.group(1).strip()
+    bracket_title = (m.group(2) or "").strip()
+    rest = segment[m.end():]
+    if bracket_title:
+        return f"{marker} — {bracket_title}"
+    # Otherwise take the first short Title-like phrase up to a period.
+    tm = re.match(r'([A-Z][^.\n]{0,60}?)\.', rest)
+    if tm and 1 <= len(tm.group(1).split()) <= 9:
+        return f"{marker} — {tm.group(1).strip()}"
+    return marker
+
+
+def _split_clause_into_provisions(chunk: ClauseChunk) -> list[ClauseChunk]:
+    """Split a CLAUSE whose body contains ≥2 genuine provision markers into
+    one child ClauseChunk per provision. Returns [chunk] unchanged otherwise.
+
+    Coverage invariant: the concatenation of the children's body text equals
+    the original body (no text is dropped); granularity is monotonic.
+    """
+    if chunk.chunk_type != "CLAUSE":
+        return [chunk]
+    body = chunk.body_text or ""
+    if len(body) < 200:
+        return [chunk]
+
+    starts = [
+        m.start()
+        for m in _PROVISION_MARKER_RE.finditer(body)
+        if _is_genuine_provision_start(body, m.start(), m.end())
+    ]
+    if len(starts) < 2:
+        return [chunk]
+
+    # Build contiguous segments: optional intro (kept with parent heading),
+    # then one segment per provision marker.
+    cut_points = sorted(set(starts))
+    pieces: list[tuple[Optional[str], str]] = []
+
+    intro = body[:cut_points[0]].strip()
+    if intro and len(intro.split()) >= 5:
+        pieces.append((chunk.heading, intro))
+
+    bounds = cut_points + [len(body)]
+    for i in range(len(cut_points)):
+        seg = body[bounds[i]:bounds[i + 1]].strip()
+        if not seg:
+            continue
+        heading = _carve_provision_heading(seg) or chunk.heading
+        pieces.append((heading, seg))
+
+    # Merge tiny fragments (< 40 chars body) into the previous piece.
+    merged: list[tuple[Optional[str], str]] = []
+    for hd, bd in pieces:
+        if merged and len(bd) < 40:
+            ph, pb = merged[-1]
+            merged[-1] = (ph, f"{pb} {bd}".strip())
+        else:
+            merged.append((hd, bd))
+
+    if len(merged) < 2:
+        return [chunk]
+
+    children: list[ClauseChunk] = []
+    for hd, bd in merged:
+        full_text = f"{hd or ''}\n{bd}".strip()
+        tok = _count_tokens(full_text)
+        child = ClauseChunk(
+            clause_id=str(uuid.uuid4()),
+            heading=hd,
+            heading_number=_extract_heading_number(hd or ""),
+            body_text=bd,
+            level=chunk.level + 1,
+            start_page=chunk.start_page,
+            end_page=chunk.end_page,
+            token_count=tok,
+            is_oversized=tok > MAX_TOKENS,
+            chunk_type="CLAUSE",
+        )
+        if child.is_oversized:
+            child.sub_chunks = _split_oversized(full_text)
+        children.append(child)
+
+    logger.debug("Split clause '%s' into %d provisions", chunk.heading, len(children))
+    return children
+
+
+def _split_merged_sections(clauses: list[ClauseChunk]) -> list[ClauseChunk]:
+    """Apply provision splitting across all clauses."""
+    out: list[ClauseChunk] = []
+    for c in clauses:
+        out.extend(_split_clause_into_provisions(c))
+    return out
+
+
+# ============================================================================
 # Main Pipeline
 # ============================================================================
 
@@ -772,6 +942,14 @@ def segment_contract_docling(pdf_path: str) -> list[ClauseChunk]:
         sum(1 for c in clauses if c.chunk_type == "TABLE"),
         sum(1 for c in clauses if c.chunk_type == "DEFINITION_GROUP"),
     )
+
+    # ---- Step 3.5: Split clauses that merged multiple Section/Article provisions ----
+    # (Phase A) Docling sometimes emits a whole Article as one body blob; recover
+    # the individual provisions so downstream gets one unit per obligation.
+    before_split = len(clauses)
+    clauses = _split_merged_sections(clauses)
+    if len(clauses) != before_split:
+        logger.info("Provision split: %d -> %d chunks", before_split, len(clauses))
 
     # ---- Step 4: Post-processing cleanup ----
     clauses = _post_process(clauses)
