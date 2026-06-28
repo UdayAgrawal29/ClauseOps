@@ -1,0 +1,210 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  /* Calm, near-white document canvas (Microsoft 365 / Notion feel). No tints. */
+  background-color: #f6f7f9;
+  color: #3a414b; /* ink-700 */
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'ss01';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Strong, restrained type hierarchy. Headings are tightened and inked near-black. */
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: #171a1f; /* ink-900 */
+    letter-spacing: -0.011em;
+  }
+  /* Numerals align in tables and metrics. */
+  table,
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Reusable component classes layered on Tailwind for one consistent, mature look. */
+@layer components {
+  /* Primary content surface. Hairline border does the separation; shadow only hints. */
+  .card {
+    @apply rounded-lg border border-ink-200 bg-white shadow-card;
+  }
+  /* A flatter grouping surface for nested/secondary regions. */
+  .panel {
+    @apply rounded-lg border border-ink-200 bg-white;
+  }
+  .panel-muted {
+    @apply rounded-md border border-ink-200 bg-ink-50;
+  }
+
+  /* Small uppercase section/eyebrow label used across panels. */
+  .section-label {
+    @apply text-2xs font-semibold uppercase tracking-[0.06em] text-ink-500;
+  }
+
+  /* Buttons — restrained, square-ish, no flashy effects. */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-md bg-brand-600 px-3.5 py-2
+      text-sm font-semibold text-white transition-colors hover:bg-brand-700
+      focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2
+      disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-md border border-ink-300
+      bg-white px-3.5 py-2 text-sm font-medium text-ink-700 transition-colors
+      hover:bg-ink-50 hover:border-ink-400 focus:outline-none focus-visible:ring-2
+      focus-visible:ring-brand-500 focus-visible:ring-offset-2
+      disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-3 py-2 text-sm
+      font-medium text-ink-600 transition-colors hover:bg-ink-100 hover:text-ink-900
+      focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500;
+  }
+
+  /* Generic small badge + status/risk variants. */
+  .badge {
+    @apply inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-2xs font-semibold
+      uppercase tracking-wide;
+  }
+  .badge-neutral {
+    @apply border-ink-200 bg-ink-50 text-ink-600;
+  }
+  .badge-brand {
+    @apply border-brand-200 bg-brand-50 text-brand-700;
+  }
+  .risk-critical {
+    @apply border-red-200 bg-red-50 text-risk-critical;
+  }
+  .risk-high {
+    @apply border-amber-200 bg-amber-50 text-risk-high;
+  }
+  .risk-medium {
+    @apply border-yellow-200 bg-yellow-50 text-risk-medium;
+  }
+  .risk-low {
+    @apply border-ink-200 bg-ink-50 text-risk-low;
+  }
+
+  /* Key/value row used in findings + metadata panels. */
+  .kv-row {
+    @apply flex items-baseline justify-between gap-4 border-b border-ink-100 py-2 last:border-0;
+  }
+  .kv-key {
+    @apply shrink-0 text-xs font-medium text-ink-500;
+  }
+  .kv-val {
+    @apply min-w-0 text-right text-sm font-medium text-ink-800;
+  }
+
+  /* Data table primitives for findings / contract lists. */
+  .data-table {
+    @apply w-full border-collapse text-sm;
+  }
+  .data-table thead th {
+    @apply border-b border-ink-200 bg-ink-50 px-3 py-2 text-left text-2xs font-semibold
+      uppercase tracking-[0.06em] text-ink-500;
+  }
+  .data-table tbody td {
+    @apply border-b border-ink-100 px-3 py-2.5 align-top text-ink-700;
+  }
+  .data-table tbody tr:hover {
+    @apply bg-ink-50/70;
+  }
+
+  /* Form controls — consistent inputs/selects across filters and date windows. */
+  .field {
+    @apply block w-full rounded-md border border-ink-300 bg-white px-3 py-2 text-sm
+      text-ink-800 shadow-xs transition-colors placeholder:text-ink-400
+      focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/25;
+  }
+  .field-label {
+    @apply block text-xs font-medium text-ink-600;
+  }
+}
+
+/* Thin, unobtrusive scrollbars that match the calm aesthetic. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd0d8 transparent;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #cbd0d8;
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #9aa2af;
+}
+
+/*
+ * Grounded source-span viewer interactions (Requirement 5.6).
+ * `.span-flash` transiently draws the eye to a task's source text when its card is
+ * clicked. Calm bronze pulse — informative, not a neon strobe.
+ */
+@keyframes span-flash {
+  0% {
+    background-color: rgba(180, 83, 9, 0);
+    box-shadow: 0 0 0 0 rgba(180, 83, 9, 0);
+  }
+  25% {
+    background-color: rgba(180, 83, 9, 0.16);
+    box-shadow: 0 0 0 2px rgba(180, 83, 9, 0.3);
+  }
+  100% {
+    background-color: rgba(180, 83, 9, 0);
+    box-shadow: 0 0 0 0 rgba(180, 83, 9, 0);
+  }
+}
+
+.span-flash {
+  animation: span-flash 1.2s ease-out 1;
+  border-radius: 0.375rem;
+}
+
+/* A restrained entrance for page content. */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in-up {
+  animation: fade-in-up 0.18s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .span-flash {
+    animation: none;
+    background-color: rgba(180, 83, 9, 0.14);
+    box-shadow: 0 0 0 2px rgba(180, 83, 9, 0.3);
+  }
+  .animate-fade-in-up {
+    animation: none;
+  }
+}
